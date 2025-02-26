@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Plus, Search } from 'lucide-react';
-import { Tab } from '@headlessui/react';
-import { invoiceOperations, type Invoice } from '@/services/invoices';
-import InvoiceDialog from './invoices/InvoiceDialog';
-import InvoiceList from './invoices/InvoiceList';
-import PaginationControls from './invoices/PaginationControls';
+import { useState, useEffect } from "react";
+import { Plus, Search } from "lucide-react";
+import { Tab } from "@headlessui/react";
+import { invoiceOperations, type Invoice } from "@/services/invoices";
+import InvoiceDialog from "./invoices/InvoiceDialog";
+import InvoiceList from "./invoices/InvoiceList";
+import PaginationControls from "./invoices/PaginationControls";
 
 interface TabItem {
   name: string;
@@ -14,110 +14,113 @@ interface TabItem {
 }
 
 const tabs: TabItem[] = [
-  { name: 'All', filter: () => true },
-  { name: 'Regular', filter: (invoice) => !invoice.gst && !invoice.po && !invoice.quotation },
-  { name: 'GST', filter: (invoice) => invoice.gst },
-  { name: 'PO', filter: (invoice) => invoice.po },
-  { name: 'Quotation', filter: (invoice) => invoice.quotation }
+  { name: "All", filter: () => true },
+  {
+    name: "Regular",
+    filter: (invoice) => !invoice.gst && !invoice.po && !invoice.quotation,
+  },
+  { name: "GST", filter: (invoice) => invoice.gst },
+  { name: "PO", filter: (invoice) => invoice.po },
+  { name: "Quotation", filter: (invoice) => invoice.quotation },
 ];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 // Dummy data for development
 const dummyInvoices: Invoice[] = [
-  { 
-    _id: '1',
-    invoiceNo: 'INV-2025-001',
-    date: '15/03/2025',
+  {
+    _id: "1",
+    invoiceNo: "INV-2025-001",
+    date: "15/03/2025",
     customerDetails: {
-      name: 'John Doe',
+      name: "John Doe",
       phone: 9876543210,
-      email: 'john@example.com',
-      address: '123 Main St, City'
+      email: "john@example.com",
+      address: "123 Main St, City",
     },
     gst: true,
     po: false,
     quotation: false,
     gstDetails: {
-      gstName: 'John Doe Enterprises',
-      gstNo: 'GST123456789',
+      gstName: "John Doe Enterprises",
+      gstNo: "GST123456789",
       gstPhone: null,
-      gstEmail: 'accounts@johndoe.com',
-      gstAddress: '123 Business Park'
+      gstEmail: "accounts@johndoe.com",
+      gstAddress: "123 Business Park",
     },
     products: [
       {
-        productName: 'Water Softener',
+        productName: "Water Softener",
         productQuantity: 1,
         productPrice: 15000,
-        productSerialNo: 'WS-001'
-      }
+        productSerialNo: "WS-001",
+      },
     ],
     transport: {
-      deliveredBy: 'Express Delivery',
-      deliveryDate: '2025-03-20'
+      deliveredBy: "Express Delivery",
+      deliveryDate: "2025-03-20",
     },
-    paidStatus: 'paid',
+    paidStatus: "paid",
     aquakartOnlineUser: false,
     aquakartInvoice: true,
-    paymentType: 'upi'
+    paymentType: "upi",
   },
   {
-    _id: '2',
-    invoiceNo: 'INV-2025-002',
-    date: '16/03/2025',
+    _id: "2",
+    invoiceNo: "INV-2025-002",
+    date: "16/03/2025",
     customerDetails: {
-      name: 'Jane Smith',
+      name: "Jane Smith",
       phone: 9876543211,
-      email: 'jane@example.com',
-      address: '456 Park Ave, City'
+      email: "jane@example.com",
+      address: "456 Park Ave, City",
     },
     gst: false,
     po: true,
     quotation: false,
     gstDetails: {
-      gstName: '',
-      gstNo: '',
+      gstName: "",
+      gstNo: "",
       gstPhone: null,
-      gstEmail: '',
-      gstAddress: ''
+      gstEmail: "",
+      gstAddress: "",
     },
     products: [
       {
-        productName: 'RO System',
+        productName: "RO System",
         productQuantity: 1,
         productPrice: 25000,
-        productSerialNo: 'RO-001'
+        productSerialNo: "RO-001",
       },
       {
-        productName: 'Installation Kit',
+        productName: "Installation Kit",
         productQuantity: 1,
         productPrice: 2000,
-        productSerialNo: 'IK-001'
-      }
+        productSerialNo: "IK-001",
+      },
     ],
     transport: {
-      deliveredBy: 'In-house',
-      deliveryDate: '2025-03-21'
+      deliveredBy: "In-house",
+      deliveryDate: "2025-03-21",
     },
-    paidStatus: 'pending',
+    paidStatus: "pending",
     aquakartOnlineUser: true,
     aquakartInvoice: true,
-    paymentType: 'card'
-  }
+    paymentType: "card",
+  },
 ];
 
 export default function Invoices() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState(0);
-  
+
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -130,17 +133,17 @@ export default function Invoices() {
     try {
       setLoading(true);
       // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       const response = await invoiceOperations.getInvoices();
       // If no data from API, use dummy data
       setInvoices(response.data.length > 0 ? response.data : dummyInvoices);
       setError(null);
     } catch (err) {
-      console.error('Error fetching invoices:', err);
+      console.error("Error fetching invoices:", err);
       // Fallback to dummy data on error
       setInvoices(dummyInvoices);
-      setError('Using demo data. API connection failed.');
+      setError("Using demo data. API connection failed.");
     } finally {
       setLoading(false);
     }
@@ -148,9 +151,12 @@ export default function Invoices() {
 
   const filteredInvoices = invoices
     .filter(tabs[selectedTab].filter)
-    .filter(invoice =>
-      invoice.invoiceNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.customerDetails.name.toLowerCase().includes(searchTerm.toLowerCase())
+    .filter(
+      (invoice) =>
+        invoice.invoiceNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        invoice.customerDetails.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()),
     );
 
   // Pagination calculations
@@ -179,8 +185,11 @@ export default function Invoices() {
     setIsDialogOpen(true);
   };
 
-  const calculateTotal = (products: Invoice['products']) => {
-    return products.reduce((sum, product) => sum + (product.productPrice * product.productQuantity), 0);
+  const calculateTotal = (products: Invoice["products"]) => {
+    return products.reduce(
+      (sum, product) => sum + product.productPrice * product.productQuantity,
+      0,
+    );
   };
 
   if (loading) {
@@ -240,10 +249,10 @@ export default function Invoices() {
                 key={tab.name}
                 className={({ selected }) =>
                   classNames(
-                    'rounded-md px-3 py-2 text-sm font-medium',
+                    "rounded-md px-3 py-2 text-sm font-medium",
                     selected
-                      ? 'bg-white text-cyan-700 shadow'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? "bg-white text-cyan-700 shadow"
+                      : "text-gray-500 hover:text-gray-700",
                   )
                 }
               >
@@ -258,8 +267,8 @@ export default function Invoices() {
             <Tab.Panel
               key={idx}
               className={classNames(
-                'rounded-xl bg-white',
-                'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
+                "rounded-xl bg-white",
+                "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60",
               )}
             >
               <div className="mt-4 flex flex-col">

@@ -1,7 +1,7 @@
-import { useState, Fragment, useEffect } from 'react';
-import { X, Package } from 'lucide-react';
-import { Dialog, Transition } from '@headlessui/react';
-import type { Invoice, Product } from '@/services/invoices';
+import { useState, Fragment, useEffect } from "react";
+import { X, Package } from "lucide-react";
+import { Dialog, Transition } from "@headlessui/react";
+import type { Invoice, Product } from "@/services/invoices";
 
 interface InvoiceDialogProps {
   isOpen: boolean;
@@ -9,44 +9,48 @@ interface InvoiceDialogProps {
   invoice?: Invoice | null;
 }
 
-export default function InvoiceDialog({ isOpen, onClose, invoice = null }: InvoiceDialogProps) {
+export default function InvoiceDialog({
+  isOpen,
+  onClose,
+  invoice = null,
+}: InvoiceDialogProps) {
   const [formData, setFormData] = useState<Partial<Invoice>>(
     invoice || {
-      invoiceNo: '',
-      date: new Date().toLocaleDateString('en-GB'),
+      invoiceNo: "",
+      date: new Date().toLocaleDateString("en-GB"),
       customerDetails: {
-        name: '',
+        name: "",
         phone: 0,
-        email: '',
-        address: ''
+        email: "",
+        address: "",
       },
       gst: false,
       po: false,
       quotation: false,
       gstDetails: {
-        gstName: '',
-        gstNo: '',
+        gstName: "",
+        gstNo: "",
         gstPhone: null,
-        gstEmail: '',
-        gstAddress: ''
+        gstEmail: "",
+        gstAddress: "",
       },
       products: [],
       transport: {
-        deliveredBy: '',
-        deliveryDate: ''
+        deliveredBy: "",
+        deliveryDate: "",
       },
-      paidStatus: '',
+      paidStatus: "",
       aquakartOnlineUser: false,
       aquakartInvoice: false,
-      paymentType: ''
-    }
+      paymentType: "",
+    },
   );
 
   const [newProduct, setNewProduct] = useState<Partial<Product>>({
-    productName: '',
+    productName: "",
     productQuantity: 1,
     productPrice: 0,
-    productSerialNo: ''
+    productSerialNo: "",
   });
 
   useEffect(() => {
@@ -58,7 +62,7 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
-    console.log('Submitting form data:', formData);
+    console.log("Submitting form data:", formData);
     onClose();
   };
 
@@ -66,14 +70,14 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
     if (newProduct.productName && newProduct.productPrice) {
       setFormData({
         ...formData,
-        products: [...(formData.products || []), { ...newProduct } as Product]
+        products: [...(formData.products || []), { ...newProduct } as Product],
       });
       // Reset the form
       setNewProduct({
-        productName: '',
+        productName: "",
         productQuantity: 1,
         productPrice: 0,
-        productSerialNo: ''
+        productSerialNo: "",
       });
     }
   };
@@ -83,7 +87,7 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
     updatedProducts.splice(index, 1);
     setFormData({
       ...formData,
-      products: updatedProducts
+      products: updatedProducts,
     });
   };
 
@@ -118,26 +122,37 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
                   as="h3"
                   className="text-2xl font-semibold leading-6 text-gray-900 mb-6"
                 >
-                  {invoice ? 'Edit Invoice' : 'Create New Invoice'}
+                  {invoice ? "Edit Invoice" : "Create New Invoice"}
                 </Dialog.Title>
                 <form onSubmit={handleSubmit} className="mt-4 space-y-6">
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Invoice Number</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Invoice Number
+                      </label>
                       <input
                         type="text"
                         value={formData.invoiceNo}
-                        onChange={(e) => setFormData({ ...formData, invoiceNo: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            invoiceNo: e.target.value,
+                          })
+                        }
                         className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Date
+                      </label>
                       <input
                         type="text"
                         value={formData.date}
-                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, date: e.target.value })
+                        }
                         placeholder="DD/MM/YYYY"
                         className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         required
@@ -147,54 +162,84 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
 
                   {/* Customer Details */}
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="text-lg font-medium text-gray-900 mb-4">Customer Details</h4>
+                    <h4 className="text-lg font-medium text-gray-900 mb-4">
+                      Customer Details
+                    </h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Name
+                        </label>
                         <input
                           type="text"
                           value={formData.customerDetails?.name}
-                          onChange={(e) => setFormData({
-                            ...formData,
-                            customerDetails: { ...formData.customerDetails!, name: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              customerDetails: {
+                                ...formData.customerDetails!,
+                                name: e.target.value,
+                              },
+                            })
+                          }
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Phone
+                        </label>
                         <input
                           type="number"
                           value={formData.customerDetails?.phone}
-                          onChange={(e) => setFormData({
-                            ...formData,
-                            customerDetails: { ...formData.customerDetails!, phone: Number(e.target.value) }
-                          })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              customerDetails: {
+                                ...formData.customerDetails!,
+                                phone: Number(e.target.value),
+                              },
+                            })
+                          }
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Email
+                        </label>
                         <input
                           type="email"
                           value={formData.customerDetails?.email}
-                          onChange={(e) => setFormData({
-                            ...formData,
-                            customerDetails: { ...formData.customerDetails!, email: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              customerDetails: {
+                                ...formData.customerDetails!,
+                                email: e.target.value,
+                              },
+                            })
+                          }
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Address
+                        </label>
                         <textarea
                           value={formData.customerDetails?.address}
-                          onChange={(e) => setFormData({
-                            ...formData,
-                            customerDetails: { ...formData.customerDetails!, address: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              customerDetails: {
+                                ...formData.customerDetails!,
+                                address: e.target.value,
+                              },
+                            })
+                          }
                           rows={3}
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         />
@@ -208,16 +253,22 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
                       <input
                         type="checkbox"
                         checked={formData.gst}
-                        onChange={(e) => setFormData({ ...formData, gst: e.target.checked })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, gst: e.target.checked })
+                        }
                         className="rounded border-gray-300 text-cyan-600 shadow-sm focus:border-cyan-500 focus:ring-cyan-500"
                       />
-                      <span className="ml-2 text-sm text-gray-600">GST Invoice</span>
+                      <span className="ml-2 text-sm text-gray-600">
+                        GST Invoice
+                      </span>
                     </label>
                     <label className="flex items-center">
                       <input
                         type="checkbox"
                         checked={formData.po}
-                        onChange={(e) => setFormData({ ...formData, po: e.target.checked })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, po: e.target.checked })
+                        }
                         className="rounded border-gray-300 text-cyan-600 shadow-sm focus:border-cyan-500 focus:ring-cyan-500"
                       />
                       <span className="ml-2 text-sm text-gray-600">PO</span>
@@ -226,39 +277,62 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
                       <input
                         type="checkbox"
                         checked={formData.quotation}
-                        onChange={(e) => setFormData({ ...formData, quotation: e.target.checked })}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            quotation: e.target.checked,
+                          })
+                        }
                         className="rounded border-gray-300 text-cyan-600 shadow-sm focus:border-cyan-500 focus:ring-cyan-500"
                       />
-                      <span className="ml-2 text-sm text-gray-600">Quotation</span>
+                      <span className="ml-2 text-sm text-gray-600">
+                        Quotation
+                      </span>
                     </label>
                   </div>
 
                   {/* GST Details */}
                   {formData.gst && (
                     <div className="bg-gray-50 p-4 rounded-lg">
-                      <h4 className="text-lg font-medium text-gray-900 mb-4">GST Details</h4>
+                      <h4 className="text-lg font-medium text-gray-900 mb-4">
+                        GST Details
+                      </h4>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">GST Name</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            GST Name
+                          </label>
                           <input
                             type="text"
                             value={formData.gstDetails?.gstName}
-                            onChange={(e) => setFormData({
-                              ...formData,
-                              gstDetails: { ...formData.gstDetails!, gstName: e.target.value }
-                            })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                gstDetails: {
+                                  ...formData.gstDetails!,
+                                  gstName: e.target.value,
+                                },
+                              })
+                            }
                             className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">GST Number</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            GST Number
+                          </label>
                           <input
                             type="text"
                             value={formData.gstDetails?.gstNo}
-                            onChange={(e) => setFormData({
-                              ...formData,
-                              gstDetails: { ...formData.gstDetails!, gstNo: e.target.value }
-                            })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                gstDetails: {
+                                  ...formData.gstDetails!,
+                                  gstNo: e.target.value,
+                                },
+                              })
+                            }
                             className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                           />
                         </div>
@@ -268,18 +342,25 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
 
                   {/* Products */}
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="text-lg font-medium text-gray-900 mb-4">Products</h4>
-                    
+                    <h4 className="text-lg font-medium text-gray-900 mb-4">
+                      Products
+                    </h4>
+
                     {/* Product List */}
                     <div className="space-y-4 mb-4">
                       {formData.products?.map((product, index) => (
-                        <div key={index} className="flex items-center space-x-4 bg-white p-4 rounded-lg">
+                        <div
+                          key={index}
+                          className="flex items-center space-x-4 bg-white p-4 rounded-lg"
+                        >
                           <Package className="h-5 w-5 text-gray-400" />
                           <div className="flex-1">
                             <p className="font-medium">{product.productName}</p>
                             <p className="text-sm text-gray-500">
-                              Qty: {product.productQuantity} × ₹{product.productPrice}
-                              {product.productSerialNo && ` • S/N: ${product.productSerialNo}`}
+                              Qty: {product.productQuantity} × ₹
+                              {product.productPrice}
+                              {product.productSerialNo &&
+                                ` • S/N: ${product.productSerialNo}`}
                             </p>
                           </div>
                           <button
@@ -296,39 +377,67 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
                     {/* Add Product Form */}
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Product Name
+                        </label>
                         <input
                           type="text"
                           value={newProduct.productName}
-                          onChange={(e) => setNewProduct({ ...newProduct, productName: e.target.value })}
+                          onChange={(e) =>
+                            setNewProduct({
+                              ...newProduct,
+                              productName: e.target.value,
+                            })
+                          }
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Serial Number</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Serial Number
+                        </label>
                         <input
                           type="text"
                           value={newProduct.productSerialNo}
-                          onChange={(e) => setNewProduct({ ...newProduct, productSerialNo: e.target.value })}
+                          onChange={(e) =>
+                            setNewProduct({
+                              ...newProduct,
+                              productSerialNo: e.target.value,
+                            })
+                          }
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Quantity
+                        </label>
                         <input
                           type="number"
                           value={newProduct.productQuantity}
-                          onChange={(e) => setNewProduct({ ...newProduct, productQuantity: Number(e.target.value) })}
+                          onChange={(e) =>
+                            setNewProduct({
+                              ...newProduct,
+                              productQuantity: Number(e.target.value),
+                            })
+                          }
                           min="1"
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Price</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Price
+                        </label>
                         <input
                           type="number"
                           value={newProduct.productPrice}
-                          onChange={(e) => setNewProduct({ ...newProduct, productPrice: Number(e.target.value) })}
+                          onChange={(e) =>
+                            setNewProduct({
+                              ...newProduct,
+                              productPrice: Number(e.target.value),
+                            })
+                          }
                           min="0"
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         />
@@ -346,29 +455,45 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
 
                   {/* Transport Details */}
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="text-lg font-medium text-gray-900 mb-4">Transport Details</h4>
+                    <h4 className="text-lg font-medium text-gray-900 mb-4">
+                      Transport Details
+                    </h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Delivered By</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Delivered By
+                        </label>
                         <input
                           type="text"
                           value={formData.transport?.deliveredBy}
-                          onChange={(e) => setFormData({
-                            ...formData,
-                            transport: { ...formData.transport!, deliveredBy: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              transport: {
+                                ...formData.transport!,
+                                deliveredBy: e.target.value,
+                              },
+                            })
+                          }
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Delivery Date</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Delivery Date
+                        </label>
                         <input
                           type="date"
                           value={formData.transport?.deliveryDate}
-                          onChange={(e) => setFormData({
-                            ...formData,
-                            transport: { ...formData.transport!, deliveryDate: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              transport: {
+                                ...formData.transport!,
+                                deliveryDate: e.target.value,
+                              },
+                            })
+                          }
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         />
                       </div>
@@ -377,13 +502,22 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
 
                   {/* Payment Details */}
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="text-lg font-medium text-gray-900 mb-4">Payment Details</h4>
+                    <h4 className="text-lg font-medium text-gray-900 mb-4">
+                      Payment Details
+                    </h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Payment Status</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Payment Status
+                        </label>
                         <select
                           value={formData.paidStatus}
-                          onChange={(e) => setFormData({ ...formData, paidStatus: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              paidStatus: e.target.value,
+                            })
+                          }
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         >
                           <option value="">Select Status</option>
@@ -393,10 +527,17 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Payment Type</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Payment Type
+                        </label>
                         <select
                           value={formData.paymentType}
-                          onChange={(e) => setFormData({ ...formData, paymentType: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              paymentType: e.target.value,
+                            })
+                          }
                           className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50 transition-colors duration-200 text-base"
                         >
                           <option value="">Select Type</option>
@@ -421,7 +562,7 @@ export default function InvoiceDialog({ isOpen, onClose, invoice = null }: Invoi
                       type="submit"
                       className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                     >
-                      {invoice ? 'Update Invoice' : 'Create Invoice'}
+                      {invoice ? "Update Invoice" : "Create Invoice"}
                     </button>
                   </div>
                 </form>

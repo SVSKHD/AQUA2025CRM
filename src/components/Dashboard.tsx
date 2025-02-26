@@ -1,18 +1,27 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Tab } from '@headlessui/react';
-import { LayoutDashboard, Package, FolderTree, FileText, UserCircle, GitFork, LogOut, Ticket } from 'lucide-react';
-import Products from './Products';
-import Categories from './Categories';
-import Invoices from './Invoices';
-import Users from './Users';
-import SubCategories from './SubCategories';
-import Coupons from './Coupons';
-import { useAuthStore } from '@/store/authStore';
+import { useState } from "react";
+import { Tab } from "@headlessui/react";
+import {
+  LayoutDashboard,
+  Package,
+  FolderTree,
+  FileText,
+  UserCircle,
+  GitFork,
+  LogOut,
+  Ticket,
+} from "lucide-react";
+import Products from "./Products";
+import Categories from "./Categories";
+import Invoices from "./Invoices";
+import Users from "./Users";
+import SubCategories from "./SubCategories";
+import Coupons from "./Coupons";
+import { useAuthStore } from "@/store/authStore";
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 interface TabItem {
@@ -22,12 +31,12 @@ interface TabItem {
 }
 
 const tabs: TabItem[] = [
-  { name: 'Products', icon: Package, component: Products },
-  { name: 'Categories', icon: FolderTree, component: Categories },
-  { name: 'Subcategories', icon: GitFork, component: SubCategories },
-  { name: 'Coupons', icon: Ticket, component: Coupons },
-  { name: 'Invoices', icon: FileText, component: Invoices },
-  { name: 'Users', icon: UserCircle, component: Users }
+  { name: "Products", icon: Package, component: Products },
+  { name: "Categories", icon: FolderTree, component: Categories },
+  { name: "Subcategories", icon: GitFork, component: SubCategories },
+  { name: "Coupons", icon: Ticket, component: Coupons },
+  { name: "Invoices", icon: FileText, component: Invoices },
+  { name: "Users", icon: UserCircle, component: Users },
 ];
 
 export default function Dashboard() {
@@ -43,7 +52,9 @@ export default function Dashboard() {
               <LayoutDashboard className="h-8 w-8 text-cyan-600" />
               <div>
                 <h1 className="text-xl font-bold text-cyan-900">Aquakart</h1>
-                <p className="text-xs text-cyan-600">Business Management Suite</p>
+                <p className="text-xs text-cyan-600">
+                  Business Management Suite
+                </p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -69,11 +80,11 @@ export default function Dashboard() {
                 key={tab.name}
                 className={({ selected }) =>
                   classNames(
-                    'w-full rounded-lg py-3 px-4 text-sm font-medium leading-5 transition-all duration-200 ease-out',
-                    'ring-white/60 ring-offset-2 ring-offset-cyan-400 focus:outline-none focus:ring-2',
+                    "w-full rounded-lg py-3 px-4 text-sm font-medium leading-5 transition-all duration-200 ease-out",
+                    "ring-white/60 ring-offset-2 ring-offset-cyan-400 focus:outline-none focus:ring-2",
                     selected
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-md'
-                      : 'text-cyan-700 hover:bg-cyan-50 hover:text-cyan-900'
+                      ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-md"
+                      : "text-cyan-700 hover:bg-cyan-50 hover:text-cyan-900",
                   )
                 }
               >
@@ -89,10 +100,10 @@ export default function Dashboard() {
               <Tab.Panel
                 key={idx}
                 className={classNames(
-                  'rounded-xl bg-white p-6 shadow-lg shadow-cyan-100/50',
-                  'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-                  'transition-all duration-300 ease-out',
-                  'animate-fadeIn'
+                  "rounded-xl bg-white p-6 shadow-lg shadow-cyan-100/50",
+                  "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                  "transition-all duration-300 ease-out",
+                  "animate-fadeIn",
                 )}
               >
                 <tab.component />

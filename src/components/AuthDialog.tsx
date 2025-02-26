@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { Info, LogIn } from 'lucide-react';
-import { useAuthStore } from '@/store/authStore';
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { Info, LogIn } from "lucide-react";
+import { useAuthStore } from "@/store/authStore";
 
 interface AuthDialogProps {
   isOpen: boolean;
@@ -11,8 +11,8 @@ interface AuthDialogProps {
 }
 
 export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
-  const [email, setEmail] = useState('demo@aquakart.com');
-  const [password, setPassword] = useState('demo123');
+  const [email, setEmail] = useState("demo@aquakart.com");
+  const [password, setPassword] = useState("demo123");
   const { signIn, error, loading } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,7 +21,7 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
       await signIn(email, password);
       onClose();
     } catch (error) {
-      console.error('Auth error:', error);
+      console.error("Auth error:", error);
     }
   };
 
@@ -64,7 +64,9 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
                   <div className="flex items-start">
                     <Info className="h-5 w-5 text-blue-500 mt-0.5 mr-3" />
                     <div>
-                      <h4 className="text-sm font-medium text-blue-900">Demo Credentials</h4>
+                      <h4 className="text-sm font-medium text-blue-900">
+                        Demo Credentials
+                      </h4>
                       <p className="mt-1 text-sm text-blue-700">
                         Use these credentials to explore the dashboard:
                       </p>

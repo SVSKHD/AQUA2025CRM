@@ -1,12 +1,12 @@
-import React from 'react';
-import { LayoutDashboard, Package, FolderTree, FileText } from 'lucide-react';
-import { Tab } from '@headlessui/react';
-import Products from './components/Products';
-import Categories from './components/Categories';
-import Invoices from './components/Invoices';
+import React from "react";
+import { LayoutDashboard, Package, FolderTree, FileText } from "lucide-react";
+import { Tab } from "@headlessui/react";
+import Products from "./components/Products";
+import Categories from "./components/Categories";
+import Invoices from "./components/Invoices";
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 interface TabItem {
@@ -16,9 +16,9 @@ interface TabItem {
 }
 
 const tabs: TabItem[] = [
-  { name: 'Products', icon: Package, component: Products },
-  { name: 'Categories', icon: FolderTree, component: Categories },
-  { name: 'Invoices', icon: FileText, component: Invoices }
+  { name: "Products", icon: Package, component: Products },
+  { name: "Categories", icon: FolderTree, component: Categories },
+  { name: "Invoices", icon: FileText, component: Invoices },
 ];
 
 function App() {
@@ -32,7 +32,9 @@ function App() {
               <LayoutDashboard className="h-8 w-8 text-cyan-600" />
               <div>
                 <h1 className="text-xl font-bold text-cyan-900">Aquakart</h1>
-                <p className="text-xs text-cyan-600">Business Management Suite</p>
+                <p className="text-xs text-cyan-600">
+                  Business Management Suite
+                </p>
               </div>
             </div>
           </div>
@@ -48,11 +50,11 @@ function App() {
                 key={tab.name}
                 className={({ selected }) =>
                   classNames(
-                    'w-full rounded-lg py-3 px-4 text-sm font-medium leading-5 transition-all duration-200 ease-out',
-                    'ring-white/60 ring-offset-2 ring-offset-cyan-400 focus:outline-none focus:ring-2',
+                    "w-full rounded-lg py-3 px-4 text-sm font-medium leading-5 transition-all duration-200 ease-out",
+                    "ring-white/60 ring-offset-2 ring-offset-cyan-400 focus:outline-none focus:ring-2",
                     selected
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-md'
-                      : 'text-cyan-700 hover:bg-cyan-50 hover:text-cyan-900'
+                      ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-md"
+                      : "text-cyan-700 hover:bg-cyan-50 hover:text-cyan-900",
                   )
                 }
               >
@@ -68,10 +70,10 @@ function App() {
               <Tab.Panel
                 key={idx}
                 className={classNames(
-                  'rounded-xl bg-white p-6 shadow-lg shadow-cyan-100/50',
-                  'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-                  'transition-all duration-300 ease-out',
-                  'animate-fadeIn'
+                  "rounded-xl bg-white p-6 shadow-lg shadow-cyan-100/50",
+                  "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                  "transition-all duration-300 ease-out",
+                  "animate-fadeIn",
                 )}
               >
                 <tab.component />

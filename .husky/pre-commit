@@ -1,7 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo "Running Prettier..."
 npx prettier --write .
-
-echo "All good to go!"
+git add .
